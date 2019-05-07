@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+	  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 引入一个外部的properties文件 resource:src下properties文件的名字 -->
+
+	<properties resource="jdbc.properties"></properties>
+
+	<!-- 设置 -->
+
+	<settings>
+
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+
+ 
+	<!-- 别名处理器 -->
+ 
+	<typeAliases>
+ 
+		<!-- type:Java里面的类型 alias:别名叫什么，一次只能配置一个JavaBean -->
+ 
+		<!-- <typeAlias type="com.oracle.bean.Worker" alias="Worker"/> -->
+ 
+		<!-- 针对某个包下所有的类起别名，name对哪个包下的bean起别名，这个包下所有的类都有别名
+
+				  别名就是类名（不区分大小写）
+
+			  -->
+ 
+		<package name="com.oracle.web.bean"/>
+ 
+	</typeAliases>
+ 
+	<!-- 类型转换器：一般不用自己定义 -->
+ 
+	<!-- <typeHandlers>
+
+		 <typeHandler handler="StringTypeHandler" javaType="java.lang.String" jdbcType="CHAR"/> 
+
+		 </typeHandlers> -->
+ 
+  
+	<plugins>
+		<!-- com.github.pagehelper为PageHelper类所在包名 -->
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+			<property name="reasonable" value="true"/>
+		</plugin>
+	</plugins>
+	<environments default="development">
+  
+		<environment id="development">
+    
+			<!-- 事物控制：默认JDBC的事物 -->
+    
+			<transactionManager type="JDBC"/>
+      
+			<!-- 数据源：四大参数 -->
+      
+			<dataSource type="POOLED">
+      
+				<property name="driver" value="${jdbc.driver}"/>
+        
+				<property name="url" value="${jdbc.url}"/>
+        
+				<property name="username" value="${jdbc.username}"/>
+        
+				<property name="password" value="${jdbc.password}"/>
+        
+			</dataSource>
+      
+		</environment>
+    
+	</environments>
+  
+	<mappers>
+  
+		<!-- 引入映射文件 -->
+  
+		<!-- <mapper resource="com/oracle/mapper/WorkerMapper.xml"/> -->
+    
+		<!-- 基于注解的这个接口 class -->
+    
+		<!-- <mapper class="com.oracle.mapper.WorkerMapperAnno"/> -->
+    
+		<!-- 一般不用url:绝对路径 映射文件不在项目里 -->
+    
+		<!-- <mapper url=""/> -->
+    
+		<!-- com.oracle.mapper这个包下所有的映射文件都加载 -->
+    
+		<package name="com.oracle.web.mapper"/>
+    
+	</mappers>
+  
+</configuration>
